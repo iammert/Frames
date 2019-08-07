@@ -24,6 +24,8 @@ class VideoFramesLayout @JvmOverloads constructor(
 
     private var layoutOrientation: Int = LinearLayout.HORIZONTAL
 
+    private var framesResource: FramesResource? = null
+
     private val videoFramesLinearLayout = LinearLayout(context)
         .also { it.layoutParams = LayoutParams(WRAP_CONTENT, WRAP_CONTENT) }
         .also { it.orientation = layoutOrientation }
@@ -43,7 +45,20 @@ class VideoFramesLayout @JvmOverloads constructor(
         videoFramesLinearLayout.postInvalidate()
     }
 
+    fun getFramesTotalWidth(): Float {
+        return framesResource?.let {
+            var totalWidth = 0f
+
+            it.frames.forEach {
+                totalWidth += frameWidth * it.fillRatio
+            }
+
+            return totalWidth
+        } ?: 0f
+    }
+
     fun onFramesLoaded(framesResource: FramesResource) {
+        this.framesResource = framesResource
         when (framesResource.status) {
             EMPTY_FRAMES -> initializeEmptyFrames(framesResource = framesResource)
             LOADING -> loadAvailableFrames(framesResource = framesResource)
