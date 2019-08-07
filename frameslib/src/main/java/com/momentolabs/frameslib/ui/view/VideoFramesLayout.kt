@@ -1,12 +1,15 @@
-package com.momentolabs.frameslib.ui
+package com.momentolabs.frameslib.ui.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.LinearLayoutCompat
+import com.lyrebirdstudio.videoeditor.lib.arch.library.ui.draggablelayout.gesture.SingleTapGestureDetector
 import com.momentolabs.frameslib.R
 import com.momentolabs.frameslib.data.model.FramesResource
 import com.momentolabs.frameslib.data.model.Status.*
@@ -16,7 +19,7 @@ class VideoFramesLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : RelativeLayout(context, attrs, defStyleAttr) {
+) : RelativeLayout(context, attrs, defStyleAttr), View.OnTouchListener {
 
     private var frameWidth: Float = context.resources.getDimension(R.dimen.frame_width)
 
@@ -26,12 +29,24 @@ class VideoFramesLayout @JvmOverloads constructor(
 
     private var framesResource: FramesResource? = null
 
+    var onSelectedListener: (() -> Unit)? = null
+
+    private val itemClickGestureDetector = SingleTapGestureDetector(context) {
+        this.onSelectedListener?.invoke()
+    }
+
     private val videoFramesLinearLayout = LinearLayout(context)
         .also { it.layoutParams = LayoutParams(WRAP_CONTENT, WRAP_CONTENT) }
         .also { it.orientation = layoutOrientation }
 
     init {
+        setOnTouchListener(this)
         addView(videoFramesLinearLayout)
+    }
+
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        itemClickGestureDetector.onTouchEvent(event!!)
+        return true
     }
 
     fun setFrameSize(frameWidth: Float, frameHeight: Float) {

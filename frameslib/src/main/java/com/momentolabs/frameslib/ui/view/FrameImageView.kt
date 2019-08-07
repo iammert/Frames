@@ -1,4 +1,4 @@
-package com.momentolabs.frameslib.ui
+package com.momentolabs.frameslib.ui.view
 
 import android.content.Context
 import android.graphics.Canvas

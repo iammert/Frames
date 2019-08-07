@@ -1,9 +1,8 @@
 package com.momentolabs.frameslib.data
 
+import com.momentolabs.frameslib.data.frameloader.*
 import com.momentolabs.frameslib.data.metadataprovider.MetadataProviderFactory
 import com.momentolabs.frameslib.data.metadataprovider.ProviderType
-import com.momentolabs.frameslib.data.metadataprovider.VideoMetaDataProvider
-import com.momentolabs.frameslib.data.model.FrameItem
 import com.momentolabs.frameslib.data.model.FrameRetrieveRequest
 import com.momentolabs.frameslib.data.model.FramesResource
 import io.reactivex.Observable
@@ -11,114 +10,22 @@ import io.reactivex.Observable
 class VideoFrameRetriever(private val providerType: ProviderType = ProviderType.FFMPEG) {
 
     fun retrieveFrames(frameRetrieveRequest: FrameRetrieveRequest): Observable<FramesResource> {
-        return Observable.create { emitter ->
-            val videoMetadataProvider = MetadataProviderFactory.get(
-                providerType = providerType,
-                path = frameRetrieveRequest.videoPath
-            )
 
-            val initialFrames = createEmptyFrames(
-                frameRetrieveRequest = frameRetrieveRequest,
-                videoMetaDataProvider = videoMetadataProvider
-            )
+        val videoMetadataProvider = MetadataProviderFactory.get(
+            providerType = providerType,
+            path = frameRetrieveRequest.videoPath
+        )
 
-            emitter.onNext(FramesResource.initialize(initialFrames))
-
-            initialFrames.forEach { emptyFrameItem ->
-                val frameBitmap = videoMetadataProvider
-                    .getFrameAt(
-                        frameInMillis = emptyFrameItem.startDuration,
-                        width = frameRetrieveRequest.frameWidth,
-                        height = frameRetrieveRequest.frameHeight
-                    )
-
-                FrameItem(
-                    frameIndex = emptyFrameItem.frameIndex,
-                    bitmap = frameBitmap,
-                    fillRatio = emptyFrameItem.fillRatio,
-                    startDuration = emptyFrameItem.startDuration,
-                    endDuration = emptyFrameItem.endDuration
-                ).also {
-                    initialFrames[it.frameIndex] = it
-                    emitter.onNext(FramesResource.loading(initialFrames))
-                }
-            }
-
-
-            emitter.onNext(FramesResource.complete(reloadEmptyBitmapsWithClosest(initialFrames)))
-            emitter.onComplete()
+        return when (frameRetrieveRequest) {
+            is FrameRetrieveRequest.MultipleFrameRequest ->
+                MultipleFrameLoader(videoMetadataProvider)
+                    .loadFrames(frameRetrieveRequest)
+            is FrameRetrieveRequest.RangeFrameRequest ->
+                RangeFrameLoader(videoMetadataProvider)
+                    .loadFrames(frameRetrieveRequest)
+            is FrameRetrieveRequest.SingleFrameRequest ->
+                SingleFrameLoader(videoMetadataProvider)
+                    .loadFrames(frameRetrieveRequest)
         }
-    }
-
-    private fun createEmptyFrames(
-        frameRetrieveRequest: FrameRetrieveRequest,
-        videoMetaDataProvider: VideoMetaDataProvider
-    ): ArrayList<FrameItem> {
-        val frameItems = arrayListOf<FrameItem>()
-        val totalFrameCount = calculateFrameCount(frameRetrieveRequest, videoMetaDataProvider.getVideoDuration())
-        val totalVideoDuration = videoMetaDataProvider.getVideoDuration()
-        var currentTimeTemp: Long = 0
-        for (index in 0 until totalFrameCount) {
-            val timeLeft = totalVideoDuration - currentTimeTemp
-
-            if (isLeftTimeLowerThanFrameDuration(timeLeft, frameRetrieveRequest.frameDuration)) {
-                val ratio = timeLeft.toFloat() / frameRetrieveRequest.frameDuration.toFloat()
-                val frameEndDuration = currentTimeTemp + timeLeft
-                frameItems.add(
-                    FrameItem(
-                        frameIndex = index,
-                        fillRatio = ratio,
-                        startDuration = currentTimeTemp,
-                        endDuration = frameEndDuration
-                    )
-                )
-            } else {
-                frameItems.add(
-                    FrameItem(
-                        frameIndex = index,
-                        fillRatio = 1.0F,
-                        startDuration = currentTimeTemp,
-                        endDuration = currentTimeTemp + frameRetrieveRequest.frameDuration
-                    )
-                )
-            }
-
-            currentTimeTemp += frameRetrieveRequest.frameDuration
-        }
-        return frameItems
-    }
-
-    private fun calculateFrameCount(frameRetrieveRequest: FrameRetrieveRequest, videoDuration: Long): Int {
-        return Math.ceil((videoDuration.toDouble() / frameRetrieveRequest.frameDuration)).toInt()
-    }
-
-    private fun isLeftTimeLowerThanFrameDuration(leftTime: Long, frameDuration: Long): Boolean {
-        return leftTime < frameDuration
-    }
-
-    private fun reloadEmptyBitmapsWithClosest(frameList: ArrayList<FrameItem>): List<FrameItem> {
-        for (i in 0 until frameList.size) {
-            val frameItem = frameList[i]
-
-            if (frameItem.bitmap == null) {
-                val frameItemIndex = frameItem.frameIndex
-
-                for (leftSearchIndex in frameItemIndex downTo 0) {
-                    if (frameList[leftSearchIndex].bitmap != null) {
-                        val updatedFrameItem = FrameItem(
-                            frameIndex = frameItem.frameIndex,
-                            bitmap = frameList[leftSearchIndex].bitmap,
-                            fillRatio = frameItem.fillRatio,
-                            startDuration = frameItem.startDuration,
-                            endDuration = frameItem.endDuration
-                        )
-                        frameList[i] = updatedFrameItem
-                        break
-                    }
-                }
-            }
-        }
-
-        return frameList
     }
 }

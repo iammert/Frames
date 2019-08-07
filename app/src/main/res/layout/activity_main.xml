@@ -10,7 +10,7 @@
     <HorizontalScrollView android:layout_width="wrap_content"
                           android:layout_height="wrap_content">
 
-        <com.momentolabs.frameslib.ui.VideoFramesLayout
+        <com.momentolabs.frameslib.ui.view.VideoFramesLayout
                 android:id="@+id/layoutFramesLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

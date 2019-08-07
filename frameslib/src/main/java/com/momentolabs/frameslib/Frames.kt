@@ -1,11 +1,11 @@
-package com.momentolabs.videoframeslayoutlib
+package com.momentolabs.frameslib
 
 import android.widget.LinearLayout
 import com.momentolabs.frameslib.data.VideoFrameRetriever
 import com.momentolabs.frameslib.data.metadataprovider.ProviderType
 import com.momentolabs.frameslib.data.model.FrameRetrieveRequest
 import com.momentolabs.frameslib.data.model.FramesResource
-import com.momentolabs.frameslib.ui.VideoFramesLayout
+import com.momentolabs.frameslib.ui.view.VideoFramesLayout
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers

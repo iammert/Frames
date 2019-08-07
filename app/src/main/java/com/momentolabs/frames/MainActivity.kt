@@ -6,8 +6,8 @@ import android.util.Log
 import android.widget.LinearLayout
 import com.momentolabs.frameslib.data.model.FrameRetrieveRequest
 import com.momentolabs.frameslib.data.model.Status
-import com.momentolabs.frameslib.ui.VideoFramesLayout
-import com.momentolabs.videoframeslayoutlib.Frames
+import com.momentolabs.frameslib.ui.view.VideoFramesLayout
+import com.momentolabs.frameslib.Frames
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,11 +17,11 @@ class MainActivity : AppCompatActivity() {
 
         val framesLayout = findViewById<VideoFramesLayout>(R.id.layoutFramesLayout)
 
-        val frameRetrieveRequest = FrameRetrieveRequest(
+        val frameRetrieveRequest = FrameRetrieveRequest.MultipleFrameRequest(
             videoPath = "/storage/emulated/0/Download/SampleVideo_1280x720_30mb.mp4",
             frameWidth = 400,
             frameHeight = 300,
-            frameDuration = 4000
+            durationPerFrame = 4000
         )
 
         Frames
