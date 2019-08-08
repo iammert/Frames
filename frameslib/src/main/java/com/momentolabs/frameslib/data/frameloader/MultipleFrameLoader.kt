@@ -84,7 +84,10 @@ class MultipleFrameLoader(private val videoMetaDataProvider: VideoMetaDataProvid
         return frameItems
     }
 
-    private fun calculateFrameCount(frameRetrieveRequest: FrameRetrieveRequest.MultipleFrameRequest, videoDuration: Long): Int {
+    private fun calculateFrameCount(
+        frameRetrieveRequest: FrameRetrieveRequest.MultipleFrameRequest,
+        videoDuration: Long
+    ): Int {
         return Math.ceil((videoDuration.toDouble() / frameRetrieveRequest.durationPerFrame)).toInt()
     }
 
