@@ -77,7 +77,7 @@ class VideoFramesLayout @JvmOverloads constructor(
         when (framesResource.status) {
             EMPTY_FRAMES -> initializeEmptyFrames(framesResource = framesResource)
             LOADING -> loadAvailableFrames(framesResource = framesResource)
-            COMPLETED -> completeFrameLoading()
+            COMPLETED -> completeFrameLoading(framesResource = framesResource)
         }
     }
 
@@ -112,7 +112,16 @@ class VideoFramesLayout @JvmOverloads constructor(
         }
     }
 
-    private fun completeFrameLoading() {
-        //no-op
+    private fun completeFrameLoading(framesResource: FramesResource) {
+        videoFramesLinearLayout.forEachIndexed { viewIndex, view ->
+            if (view is FrameImageView) {
+                val frameItem = framesResource.getFrameItem(viewIndex)
+
+                if (view.drawable == null && frameItem.bitmap != null) {
+                    view.setImageBitmap(frameItem.bitmap)
+                    view.postInvalidate()
+                }
+            }
+        }
     }
 }

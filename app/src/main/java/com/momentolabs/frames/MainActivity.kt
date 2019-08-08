@@ -17,11 +17,11 @@ class MainActivity : AppCompatActivity() {
 
         val framesLayout = findViewById<VideoFramesLayout>(R.id.layoutFramesLayout)
 
-        val frameRetrieveRequest = FrameRetrieveRequest.MultipleFrameRequest(
+        val frameRetrieveRequest = FrameRetrieveRequest.SingleFrameRequest(
             videoPath = "/storage/emulated/0/Download/SampleVideo_1280x720_30mb.mp4",
             frameWidth = 400,
             frameHeight = 300,
-            durationPerFrame = 4000
+            durationInMillis = 10
         )
 
         Frames

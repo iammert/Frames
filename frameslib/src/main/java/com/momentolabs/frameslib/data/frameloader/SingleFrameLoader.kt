@@ -21,8 +21,8 @@ class SingleFrameLoader(private val videoMetaDataProvider: VideoMetaDataProvider
             val emptyFrameItem = FrameItem(
                 frameIndex = 0,
                 fillRatio = 1.0F,
-                startDuration = frameRetrieveRequest.durationInMillis,
-                endDuration = frameRetrieveRequest.durationInMillis
+                startDuration = validatedDuration,
+                endDuration = validatedDuration
             )
 
             emitter.onNext(FramesResource.initialize(arrayListOf(emptyFrameItem)))
@@ -42,7 +42,7 @@ class SingleFrameLoader(private val videoMetaDataProvider: VideoMetaDataProvider
                 startDuration = validatedDuration,
                 endDuration = validatedDuration
             ).also {
-                emitter.onNext(FramesResource.complete(arrayListOf(emptyFrameItem)))
+                emitter.onNext(FramesResource.complete(arrayListOf(it)))
             }
 
             emitter.onComplete()
