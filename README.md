@@ -62,6 +62,9 @@ Frames.load(frameRequest).into(layoutFramesLayout)
 ```
 ## How does it work behind the scene?
 
+<img src="https://raw.githubusercontent.com/momento-lab/Frames/master/art/howitworks.png"/>
+
+
 
 
 
