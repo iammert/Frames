@@ -64,6 +64,21 @@ Frames.load(frameRequest).into(layoutFramesLayout)
 
 <img src="https://raw.githubusercontent.com/momento-lab/Frames/master/art/howitworks.png"/>
 
+## Setup
+
+```groovy
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+dependencies {
+    implementation 'com.github.momento-lab:Frames:0.3'
+}
+```
+
 
 License
 --------
