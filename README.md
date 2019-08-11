@@ -41,8 +41,8 @@ val rangeFrameRequest = FrameRetrieveRequest.RangeFrameRequest(
     frameWidth = 400,
     frameHeight = 300,
     durationPerFrame = 4000,
-    startDuration = 8000,
-    endDuration = 11100
+    startDuration = 5000,
+    endDuration = 15000
 )
 ```
 
