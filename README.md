@@ -79,6 +79,9 @@ Frames
 
 <img src="https://raw.githubusercontent.com/momento-lab/Frames/master/art/howitworks.png"/>
 
+## Notes
+- Before using Frames library, ask for the ```READ_EXTERNAL_STORAGE``` permission.
+
 ## Setup
 
 ```groovy
