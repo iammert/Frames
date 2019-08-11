@@ -60,6 +60,21 @@ val rangeFrameRequest = FrameRetrieveRequest.RangeFrameRequest(
 ```kotlin
 Frames.load(frameRequest).into(layoutFramesLayout)
 ```
+
+### Load frame bitmaps manually
+```kotlin
+Frames
+    .load(frameRetrieveRequest)
+    .into { framesResource ->
+        when (framesResource.status) {
+            Status.EMPTY_FRAMES -> // emit all empty frames initially. (you can draw your own custom view with this)
+            Status.LOADING -> // Lazily emits frames while loading. This scope will be called serially until all frames loaded
+            Status.COMPLETED -> // Called when all frames loaded.
+        }
+    }
+```
+
+
 ## How does it work behind the scene?
 
 <img src="https://raw.githubusercontent.com/momento-lab/Frames/master/art/howitworks.png"/>
