@@ -2,7 +2,7 @@
 
 ## What is Frames?
 
-Frames retrieves frames from video. You can customize your frame fetching request as you need.
+Frames library retrieves frames from video. It loads frames lazily under the hood. You can customize your frame fetching request as you need.
 
 ## What is FrameRequest?
 
@@ -60,3 +60,9 @@ val rangeFrameRequest = FrameRetrieveRequest.RangeFrameRequest(
 ```kotlin
 Frames.load(frameRequest).into(layoutFramesLayout)
 ```
+## How does it work behind the scene?
+
+
+
+
+
