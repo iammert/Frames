@@ -60,7 +60,61 @@ val rangeFrameRequest = FrameRetrieveRequest.RangeFrameRequest(
 ```kotlin
 Frames.load(frameRequest).into(layoutFramesLayout)
 ```
+
+### Load frame bitmaps manually
+```kotlin
+Frames
+    .load(frameRetrieveRequest)
+    .into { framesResource ->
+        when (framesResource.status) {
+            Status.EMPTY_FRAMES -> // emit all empty frames initially. (you can draw your own custom view with this)
+            Status.LOADING -> // Lazily emits frames while loading. This scope will be called serially until all frames loaded
+            Status.COMPLETED -> // Called when all frames loaded.
+        }
+    }
+```
+
+
 ## How does it work behind the scene?
+
+<img src="https://raw.githubusercontent.com/momento-lab/Frames/master/art/howitworks.png"/>
+
+## Notes
+- Before using Frames library, ask for the ```READ_EXTERNAL_STORAGE``` permission.
+
+## Setup
+
+```groovy
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+dependencies {
+    implementation 'com.github.momento-lab:Frames:0.3'
+}
+```
+
+
+License
+--------
+
+
+    Copyright 2019 Mert Şimşek
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 
 
 
