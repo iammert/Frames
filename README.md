@@ -74,6 +74,13 @@ Frames
     }
 ```
 
+You can also change provider type.
+```kotlin
+Frames
+    .load(frameRetrieveRequest)
+    .setProviderType(ProviderType.FFMPEG or ProviderType.NATIVE_ANDROID)
+    .into{...}
+```
 
 ## How does it work behind the scene?
 
