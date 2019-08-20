@@ -7,6 +7,7 @@ object MetadataProviderFactory {
     fun get(providerType: ProviderType, path: String): VideoMetaDataProvider {
         return when (providerType) {
             FFMPEG -> FFmpegVideoMetaDataProvider(path)
+            NATIVE_ANDROID -> AndroidNativeMetadataProvider(path)
         }
     }
 }

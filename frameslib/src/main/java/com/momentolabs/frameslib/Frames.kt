@@ -20,10 +20,15 @@ class Frames private constructor(private val frameRetrieveRequest: FrameRetrieve
 
     private var frameRetrieverDisposable: Disposable? = null
 
-    private val videoFramesRetriever = VideoFrameRetriever(providerType = ProviderType.FFMPEG)
+    private val videoFramesRetriever = VideoFrameRetriever()
 
     fun setErrorListener(errorListener: (Throwable) -> Unit): Frames {
         this.errorListener = errorListener
+        return this
+    }
+
+    fun setProviderType(providerType: ProviderType): Frames {
+        videoFramesRetriever.setProviderType(providerType)
         return this
     }
 

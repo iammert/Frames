@@ -7,7 +7,7 @@ import com.momentolabs.frameslib.data.model.FrameRetrieveRequest
 import com.momentolabs.frameslib.data.model.FramesResource
 import io.reactivex.Observable
 
-class VideoFrameRetriever(private val providerType: ProviderType = ProviderType.FFMPEG) {
+class VideoFrameRetriever(private var providerType: ProviderType = ProviderType.FFMPEG) {
 
     fun retrieveFrames(frameRetrieveRequest: FrameRetrieveRequest): Observable<FramesResource> {
 
@@ -27,5 +27,9 @@ class VideoFrameRetriever(private val providerType: ProviderType = ProviderType.
                 SingleFrameLoader(videoMetadataProvider)
                     .loadFrames(frameRetrieveRequest)
         }
+    }
+
+    fun setProviderType(providerType: ProviderType) {
+        this.providerType = providerType
     }
 }

@@ -1,5 +1,6 @@
 package com.momentolabs.frameslib.data.metadataprovider
 
 enum class ProviderType {
-    FFMPEG
+    FFMPEG,
+    NATIVE_ANDROID
 }

@@ -8,10 +8,9 @@ import java.lang.IllegalStateException
 class FFmpegVideoMetaDataProvider(path: String) : VideoMetaDataProvider {
 
     private val fFmpegMediaMetadataRetriever = FFmpegMediaMetadataRetriever()
-
-    init {
-        fFmpegMediaMetadataRetriever.setDataSource(path)
-    }
+        .apply {
+            setDataSource(path)
+        }
 
     override fun getVideoDuration(): Long {
         return fFmpegMediaMetadataRetriever.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_DURATION).toLong()
