@@ -1,4 +1,4 @@
-package com.lyrebirdstudio.videoeditor.lib.arch.library.ui.draggablelayout.gesture
+package com.momentolabs.frameslib.ui.gesture
 
 import android.content.Context
 import android.view.GestureDetector

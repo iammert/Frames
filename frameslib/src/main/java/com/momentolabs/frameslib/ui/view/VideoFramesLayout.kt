@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.LinearLayoutCompat
-import com.lyrebirdstudio.videoeditor.lib.arch.library.ui.draggablelayout.gesture.SingleTapGestureDetector
+import com.momentolabs.frameslib.ui.gesture.SingleTapGestureDetector
 import com.momentolabs.frameslib.R
 import com.momentolabs.frameslib.data.model.FramesResource
 import com.momentolabs.frameslib.data.model.Status.*
