@@ -26,17 +26,8 @@ android {
 
     packagingOptions {
         packagingOptions {
-            exclude 'lib/armeabi-v7a/libffmpeg_mediametadataretriever_jni.so'
-            exclude 'lib/armeabi-v7a/libavutil.so'
-            exclude 'lib/armeabi-v7a/libswscale.so'
-            exclude 'lib/armeabi-v7a/libavcodec.so'
-            exclude 'lib/armeabi-v7a/libavformat.so'
-
-            exclude 'lib/arm64-v8a/libffmpeg_mediametadataretriever_jni.so'
-            exclude 'lib/arm64-v8a/libavutil.so'
-            exclude 'lib/arm64-v8a/libswscale.so'
-            exclude 'lib/arm64-v8a/libavcodec.so'
-            exclude 'lib/arm64-v8a/libavformat.so'
+            exclude 'lib/armeabi-v7a/**'
+            exclude 'lib/arm64-v8a/**'
         }
     }
 }
