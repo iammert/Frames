@@ -100,7 +100,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.momento-lab:Frames:0.3'
+    implementation 'com.github.iammert:Frames:0.3'
 }
 ```
 
